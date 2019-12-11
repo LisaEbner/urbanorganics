@@ -13,11 +13,10 @@ router.use("*", (req, res) => {
     }
   }
   if (req.accepts('json')) {
-    res.send({
+    return res.send({
       status: 404,
       statusText: 'Not found'
     });
-    break;
   }
   res.type('txt').send('Not found');
 });

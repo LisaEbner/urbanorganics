@@ -1,6 +1,7 @@
 const { Router } = require('express');
 const router = Router();
 
+const validator = require('validator');
 const bcrypt = require('bcrypt');
 
 function getUser(body) {
