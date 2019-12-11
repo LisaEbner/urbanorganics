@@ -5,12 +5,13 @@ function Footer() {
     lineHeight: "2rem",
     backgroundColor: "#32a8a4",
 
+
   };
   return (
     <nav style={
       myStyle
     }
-      className="navbar fixed-bottom text-light" >
+      className="navbar text-light" >
 
       <a className="text-dark h3 text-left"
         href="/" > Urban Organics </a>
