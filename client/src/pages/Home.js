@@ -10,9 +10,11 @@ function Home() {
     minHeight: "100vh"
   }
   return (
-    <div style={perfectImageStyle} className="homePageImage">
+    <div style={perfectImageStyle} className="homePageImage text-center">
       <h1 style={{ padding: "23rem" }} className="text-center">Urban Organics</h1>
-
+      <div className="btn">
+        <img src="./logos/arrow.png"></img>
+      </div>
     </div>
   );
 }

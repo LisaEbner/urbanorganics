@@ -4,6 +4,7 @@ function Footer() {
   const myStyle = {
     lineHeight: "2rem",
     backgroundColor: "#32a8a4",
+    height: "1000px"
 
 
   };
