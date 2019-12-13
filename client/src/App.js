@@ -24,6 +24,7 @@ function App() {
 				<Switch>
 					<Route path="/">
 						<Home />
+						{/* <About /> */}
 					</Route>
 
 				</Switch>

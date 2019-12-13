@@ -7,8 +7,9 @@ function Home() {
     backgroundAttachment: "fixed",
     backgroundSize: "cover",
     minHeight: "100vh",
-
   }
+
+
   return (
     <div style={perfectImageStyle} className="homePageImage text-center">
       <div style={{ display: "flex", flexDirection: "column", height: "100vh", justifyContent: "space-between", alignItems: "center" }}>
@@ -28,7 +29,7 @@ function Home() {
           <h2 className="text-light">------></h2>
         </div>
 
-        <div className="btn">
+        <div className="btn" id="arrowButton">
           <img src="./logos/arrow.png" alt="down arrow" className="flex-bottom"></img>
         </div>
 
