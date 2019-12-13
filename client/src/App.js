@@ -12,7 +12,7 @@ import Footer from "./components/Footer";
 
 // pages
 import Home from "./pages/Home";
-// TODO import Store from "./pages/store";
+import Store from "./pages/Store";
 
 
 function App() {
@@ -23,13 +23,13 @@ function App() {
 			<BrowserRouter>
 				<Switch>
 					<Route path="/">
-						<Home />
+						<Store />
 						{/* <About /> */}
 					</Route>
 
 				</Switch>
 			</BrowserRouter>
-			<Footer />
+			{/* <Footer /> */}
 		</div>
 
 
