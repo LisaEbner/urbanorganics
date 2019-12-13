@@ -1,32 +1,42 @@
-import React from 'react';
-import Footer from "./components/Footer";
-import Home from "./components/Pages/Home";
-import About from "./components/Pages/About";
-import CreateUser from "./components/CreateUser";
-import {BrowserRouter, Switch,Route} from "react-router-dom"
-import CssBaseline from "@material-ui/core/CssBaseline"
-import {MuiThemeProvider} from "@material-ui/core/styles"
-import Grid from "@material-ui/core/Grid"
+import React, { Component } from 'react';
 
-function App() {
-  return (
-	  <MuiThemeProvider>
-	    <CssBaseline/>
-		  <Grid alignItems="center" container justify="space-between">
-	  <Grid item xs={12}>
-	    <BrowserRouter>
-		  <Switch>
-		      <Route path="/create-user" component={CreateUser}/>
-		      <Route path="/about" component={About}/>
-		      <Route component={Home}/>
-		  </Switch>
-	    </BrowserRouter>
-	      <Footer />
-	  </Grid>
-	  </Grid>
-	  </MuiThemeProvider>
+import Toolbar from './components/Toolbar/Toolbar';
+import SideDrawer from './components/SideDrawer/SideDrawer';
+import Backdrop from './components/Backdrop/Backdrop';
 
-  );
+class App extends Component {
+  state = {
+    sideDrawerOpen: false
+  };
+
+  drawerToggleClickHandler = () => {
+    this.setState((prevState) => {
+      return {sideDrawerOpen: !prevState.sideDrawerOpen};
+    });
+  };
+
+  backdropClickHandler = () => {
+    this.setState({sideDrawerOpen: false});
+  };
+
+  render() {
+    let backdrop;
+
+    if (this.state.sideDrawerOpen) {
+      backdrop = <Backdrop click={this.backdropClickHandler} />
+    }
+    return (
+      <div style={{height: '100%'}}>
+        <Toolbar drawerClickHandler={this.drawerToggleClickHandler} />
+        <SideDrawer show={this.state.sideDrawerOpen} />
+        {backdrop}
+        <main style={{marginTop: '64px'}}>
+          <p>This is the page content!</p>
+        </main>
+        
+      </div>
+    );
+  }
 }
 
 export default App;
