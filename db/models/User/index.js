@@ -35,14 +35,21 @@ const strongPassword = new RegExp(/^(?!.*\s)(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[
 
 UserSchema.statics.parse = (data) => {
   return new Promise((resolve, reject) => {
-    if (!data) reject("Bad Request");
+    if (!data) reject("no data to parse");
 
     const { email, password, name } = data;
-    if (typeof email !== "string" || typeof password !== "string") reject("Bad Request");
-    if (typeof name !== "object" || Array.isArray(name)) reject("Bad Request");
 
-    const { first, last } = name;
-    if (typeof first !== "string" || typeof last !== "string") reject("Bad Request");
+    let typeError = "";
+    if (typeof email !== "string") typeError += "email is not a string";
+    if (typeof password !== "string") typeError += `${typeError ? "AND " : ""}password is not a string`;
+    if (typeof name !== "object") typeError += `${typeError ? "AND " : ""}name is not an object`;
+    else if (Array.isArray(name)) typeError += `${typeError ? "AND " : ""}name is an array`;
+    else {
+      const { first, last } = name;
+      if (typeof first !== "string") typeError += `${typeError ? "AND " : ""}name.first is not a string`;
+      if (typeof last !== "string") typeError += `${typeError ? "AND " : ""}name.first is not a string`;
+    }
+    if (typeError) reject(typeError);
 
     if (!validator.isEmail(email)) resolve();
     if (!password.match(strongPassword)) resolve();

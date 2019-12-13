@@ -3,42 +3,32 @@ const router = Router();
 
 const bcrypt = require('bcrypt');
 
+
 router.post("/", (req, res) => {
   const db = req.app.get('db');
   db.User.parse(req.body)
     .then(userData => {
       if (!userData) throw "Unprocessable Entity";
-      return userData
+      else return userData;
     })
-    .then(({ email, password, name }) => {
-      db.User.findOne({ email })
-        .then(user => {
-          if (user) {
-            return res.status(422).json({
-              status: 422,
-              statusText: "Unprocessable Entity"
-            });
-          }
-          const saltRounds = 10;
-          bcrypt.hash(password, saltRounds)
-            .then(hash => {
-              db.User.create(
-                {
-                  name,
-                  email,
-                  password: hash
-                }
-              )
-                .then(result => {
-                  console.log(result);
+    .then(async ({ email, password, name }) => {
+      const existingUser = await db.User.findOne({ email });
+      if (existingUser) throw "Unprocessable Entity";
 
-                  res.status(201).json({
-                    status: 201,
-                    statusText: "Created"
-                  })
-                });
-            });
-        });
+      const saltRounds = 10;
+      const hash = await bcrypt.hash(password, saltRounds);
+      const newUser = await db.User.create({
+        name,
+        email,
+        password: hash
+      });
+
+      console.log(newUser);
+
+      res.status(201).json({
+        status: 201,
+        statusText: "Created"
+      })
     })
     .catch(err => {
       switch (err) {
