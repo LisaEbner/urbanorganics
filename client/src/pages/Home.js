@@ -1,5 +1,5 @@
 import React from "react";
-function Home() {
+function Home(props) {
   const perfectImageStyle = {
     backgroundImage: `url(./images/homepage-avacadomango-unsplash.jpg)`,
     backgroundPosition: "center center",
@@ -16,21 +16,21 @@ function Home() {
 
         <div style={{ paddingTop: "10rem" }} className="name-and-logo">
 
-          <div style={{ height: "200px", width: "200px", background: "red", opacity: "0.3", }} className="urbanOrganicsLogo mx-auto">
-            <h4 className="mx-auto">LOGO</h4>
+          <div className="urbanOrganicsLogo mx-auto">
+            <img src="./logos/UrbOrgLogo.png" style={{ height: "250px", width: "250px" }}></img>
           </div>
 
           <h1 className="">Urban Organics</h1>
 
         </div>
 
-        <div style={{ height: "auto", width: "fit-content", border: "solid lightgray 1px", background: "black", opacity: "0.5", }} className="btn pb-2 pt-2 pr-4 pl-4">
+        <div style={{ height: "auto", width: "fit-content", border: "solid lightgray 1px", background: "black", opacity: "0.5", }} onClick={() => props.handlePageChange("Store")} className="btn pb-2 pt-2 pr-4 pl-4">
           <h2 className="text-light mb-0">GO SHOPPING</h2>
           <h2 className="text-light">------></h2>
         </div>
 
         <div className="btn" id="arrowButton">
-          <img src="./logos/arrow.png" alt="down arrow" className="flex-bottom"></img>
+          <img src="./logos/downarrow.png" alt="down arrow" className="flex-bottom" style={{ height: "30px", width: "60px" }}></img>
         </div>
 
       </div>
