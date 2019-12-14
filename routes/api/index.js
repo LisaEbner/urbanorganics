@@ -3,6 +3,7 @@ const router = Router();
 
 const { verifyToken } = require("../../middleware/auth");
 
-router.use("/users", require("./users"));
+router.use("/account", require("./account"));
+router.use("/products", require("./products"));
 
 module.exports = router;
