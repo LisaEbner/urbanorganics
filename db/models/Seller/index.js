@@ -2,13 +2,18 @@ const { Schema } = require("mongoose");
 
 const SellerSchema = new Schema({
   name: {
-    type: String
+    type: String,
+    required: true,
+    trim: true
   },
   description: {
-    type: String
+    type: String,
+    required: true,
+    trim: true
   },
   image: {
-    type: String
+    type: String,
+    trim: true
   }
 });
 

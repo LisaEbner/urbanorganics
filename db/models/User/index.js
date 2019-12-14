@@ -5,6 +5,42 @@ const strongPassword = new RegExp(/^(?!.*\s)(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[
 
 const bcrypt = require('bcrypt');
 
+const AddressSchema = new Schema({
+  line1: {
+    type: String,
+    required: true,
+    trim: true
+  },
+  line2: {
+    type: String,
+    trim: true
+  },
+  city: {
+    type: String,
+    required: true,
+    trim: true
+  },
+  postcode: {
+    type: String,
+    required: true,
+    trim: true
+  },
+  district: { // county
+    type: String,
+    trim: true
+  },
+  region: { // state
+    type: String,
+    required: true,
+    trim: true
+  },
+  country: {
+    type: String,
+    required: true,
+    trim: true
+  }
+})
+
 const CartItemSchema = new Schema({
   product: {
     type: Schema.Types.ObjectId,
@@ -17,7 +53,7 @@ const CartItemSchema = new Schema({
     required: true,
     min: 1
   }
-})
+});
 
 const UserSchema = new Schema({
   email: {
@@ -27,7 +63,8 @@ const UserSchema = new Schema({
       validator: v => validator.isEmail(v),
       message: props => `${props.value} is not a valid email`
     },
-    required: true
+    required: true,
+    trim: true
   },
   password: {
     type: String,
@@ -40,23 +77,23 @@ const UserSchema = new Schema({
   name: {
     first: {
       type: String,
-      required: true
+      required: true,
+      trim: true
     },
     last: {
       type: String,
-      required: true
+      required: true,
+      trim: true
     }
   },
-  address: {
-    type: Schema.Types.ObjectId,
-    ref: "Address"
-  },
+  addresses: [AddressSchema],
   phone: {
     type: String,
     validate: {
       validator: v => validator.isMobilePhone(v),
       message: props => `${props.value} is not a valid phone number`
-    }
+    },
+    trim: true
   },
   cart: [CartItemSchema]
 });

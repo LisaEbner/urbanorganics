@@ -8,6 +8,8 @@ router.use("/logout", verifyToken, require("./logout"));
 
 router.use("/create", require("./create"));
 
+router.use("/addresses", verifyToken, require("./addresses"));
+
 router.use("/cart", verifyToken, require("./cart"));
 
 router.get("/", verifyToken, (req, res) => {

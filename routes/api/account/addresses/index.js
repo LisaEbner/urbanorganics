@@ -5,28 +5,28 @@ router.get("/", async (req, res) => {
   const { id } = req.authToken;
   const user = await req.app.get('db').User.findById(id);
   if (!user) {
-    return res.status(404).json({
-      status: 404,
-      statusText: 'Not Found'
+    return res.status(204).json({
+      status: 204,
+      statusText: 'No Content'
     });
   }
   res.status(200).json({
     status: 200,
     statusText: 'OK',
-    result: user.cart
+    result: user.addresses
   });
 });
 
 router.put("/", async (req, res) => {
   const { id } = req.authToken;
   try {
-    const { cart } = req.body;
-    if (!cart || !Array.isArray(cart)) throw "Bad Request";
+    const { addresses } = req.body;
+    if (!addresses || !Array.isArray(addresses)) throw "Bad Request";
 
     const user = await req.app.get('db').User.findById(id);
-    if (!user) throw "Not Found";
+    if (!user) throw "Unprocessable Entity";
 
-    user.cart = cart;
+    user.addresses = addresses;
 
     const result = await user.save();
 
@@ -34,15 +34,15 @@ router.put("/", async (req, res) => {
       status: 200,
       statusText: "OK",
       result: {
-        cart: result.cart
+        addresses: result.addresses
       }
     });
   } catch (err) {
     switch (e) {
-      case "Not Found":
-        res.status(404).json({
-          status: 404,
-          statusText: "Not Found"
+      case "Unprocessable Entity":
+        res.status(422).json({
+          status: 422,
+          statusText: "Unprocessable Entity"
         });
         break;
       case "Bad Request":
