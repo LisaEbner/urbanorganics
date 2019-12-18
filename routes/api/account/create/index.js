@@ -1,8 +1,6 @@
 const { Router } = require('express');
 const router = Router();
 
-const bcrypt = require('bcrypt');
-
 
 router.post("/", async (req, res) => {
   const db = req.app.get('db');

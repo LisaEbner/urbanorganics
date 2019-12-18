@@ -1,4 +1,5 @@
 import React from "react";
+import {Link} from 'react-router-dom';
 function Home(props) {
   const perfectImageStyle = {
     backgroundImage: `url(./images/homepage-avacadomango-unsplash.jpg)`,
@@ -11,6 +12,19 @@ function Home(props) {
 
 
   return (
+    <>
+    <Link to='/about'>
+<button>ABOUT</button>
+    </Link>
+    <Link to='/'>
+<button>HOME</button>
+    </Link>
+    <Link to='/store'>
+<button>STORE</button>
+    </Link>
+    {/* <button onClick={props.handlePageChange('Home')}>HOME</button>
+    <button onClick={props.handlePageChange('Store')}>STORE</button> */}
+    
     <div style={perfectImageStyle} className="homePageImage text-center">
       <div style={{ display: "flex", flexDirection: "column", height: "100vh", justifyContent: "space-between", alignItems: "center" }}>
 
@@ -24,7 +38,7 @@ function Home(props) {
 
         </div>
 
-        <div style={{ height: "auto", width: "fit-content", border: "solid lightgray 1px", background: "black", opacity: "0.5", }} onClick={() => props.handlePageChange("Store")} className="btn pb-2 pt-2 pr-4 pl-4">
+        <div style={{ height: "auto", width: "fit-content", border: "solid lightgray 1px", background: "black", opacity: "0.5", }} className="btn pb-2 pt-2 pr-4 pl-4">
           <h2 className="text-light mb-0">GO SHOPPING</h2>
           <h2 className="text-light">------></h2>
         </div>
@@ -36,6 +50,7 @@ function Home(props) {
       </div>
 
     </div>
+    </>
   );
 }
 
