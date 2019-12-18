@@ -1,10 +1,11 @@
 import React, { useState } from "react";
+import {Link} from 'react-router-dom'
 import StoreCard from "../components/StoreCard";
 import FilterDropdown from "../components/FilterDropdown"
 
 const tempArray = Array(12).fill("");
 
-function StorePage() {
+function StorePage(props) {
 
   const [foodName, setFoodName] = useState("Food Name");
   const [foodImage, setFoodImage] = useState("./placeHolders/286x180.svg")
@@ -21,6 +22,16 @@ function StorePage() {
 
 
   return (
+    <>
+    <Link to='/about'>
+<button>ABOUT</button>
+    </Link>
+    <Link to='/'>
+<button>HOME</button>
+    </Link>
+    <Link to='/store'>
+<button>STORE</button>
+    </Link>
     <div className="container-fluid ">
       <div className="row">
         <FilterDropdown />
@@ -37,6 +48,7 @@ function StorePage() {
       </div>
 
     </div>
+    </>
   )
 
 }
