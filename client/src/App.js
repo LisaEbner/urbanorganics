@@ -17,6 +17,7 @@ import Home from "./pages/Home";
 import Store from "./pages/Store";
 
 
+
 function App() {
 
 	const [currentPage, setCurrentPage] = useState("Home");
