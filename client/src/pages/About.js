@@ -8,7 +8,7 @@ function About() {
       <h1 style={{ padding: "3rem 0" }}>About Us</h1>
       <br></br>
 
-      <div id="carouselExampleIndicators" className="carousel slide" data-ride="carousel" style={{ height: "40vh" }}>
+      <div id="carouselExampleIndicators" className="carousel slide" data-ride="carousel" style={{ minHeight: "40vh" }}>
         <ol className="carousel-indicators">
           <li data-target="#carouselExampleIndicators" data-slide-to="0" className="active"></li>
           <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
@@ -34,7 +34,7 @@ function About() {
           <div className="carousel-item " style={{ padding: "0 15vw" }}>
             <h2>Why Urban Organics?</h2>
             <br></br>
-            <strong>Stay Fit</strong>
+            <strong style={{ fontSize: "1.5rem" }}> Stay Fit</strong>
             <br></br>
             <p style={{ fontSize: "1.5rem" }}>
               Traditional restaurant fare is associated with a daily increase in
@@ -48,12 +48,11 @@ function About() {
         and cleaning up the kitchen.</p>
           </div>
           <div className="carousel-item" style={{ padding: "0 15vw" }}>
-            <h2>Our Plan</h2>
-            <strong>
+            <h2><strong>More Info</strong></h2>
+            <h3 className=" mb-3">
               Be part of a solution 5% of all profits provide support for the Portland
-              homeless community
-      </strong>
-            <strong>Employee Benefits & Wellness Plans</strong>
+              homeless community.</h3> <br />
+            <h2 style={{ fontSize: "1.5rem" }}><strong>Employee Benefits & Wellness Plans</strong></h2>
             <p className="">
               Attract and maintain top talent with our employee wellness plans.
               Portland’s highest-rated employers care not just about the bottom line,
@@ -72,7 +71,7 @@ function About() {
         </a>
       </div>
 
-    </div>
+    </div >
   );
 }
 
