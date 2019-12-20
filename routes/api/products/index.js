@@ -4,7 +4,7 @@ const router = Router();
 router.get("/", async (req, res) => {
   const { filters } = req.body;
 
-  const products = req.app.get('db').Product.find();
+  const products = req.app.get('db').Product.find({});
 
   const productMap = {};
   products.forEach(product => {
