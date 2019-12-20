@@ -3,18 +3,20 @@ const router = Router();
 
 router.get("/", async (req, res) => {
   const { id } = req.authToken;
-  const user = await req.app.get('db').User.findById(id);
-  if (!user) {
-    return res.status(204).json({
-      status: 204,
-      statusText: 'No Content'
+  try {
+    const user = await req.app.get('db').User.findById(id);
+    if (!user) throw "Not Found";
+    res.status(200).json({
+      status: 200,
+      statusText: 'OK',
+      result: user.addresses
+    });
+  } catch {
+    res.status(404).json({
+      status: 404,
+      statusText: 'Not Found'
     });
   }
-  res.status(200).json({
-    status: 200,
-    statusText: 'OK',
-    result: user.addresses
-  });
 });
 
 router.put("/", async (req, res) => {

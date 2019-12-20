@@ -1,58 +1,15 @@
-const { Schema } = require("mongoose");
+const { Schema, model } = require("mongoose");
 
 const validator = require('validator');
+
 const strongPassword = new RegExp(/^(?!.*\s)(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#%&+=|^$*-]).{8,}/g);
 
 const bcrypt = require('bcrypt');
 
-const AddressSchema = new Schema({
-  line1: {
-    type: String,
-    required: true,
-    trim: true
-  },
-  line2: {
-    type: String,
-    trim: true
-  },
-  city: {
-    type: String,
-    required: true,
-    trim: true
-  },
-  postcode: {
-    type: String,
-    required: true,
-    trim: true
-  },
-  district: { // county
-    type: String,
-    trim: true
-  },
-  region: { // state
-    type: String,
-    required: true,
-    trim: true
-  },
-  country: {
-    type: String,
-    required: true,
-    trim: true
-  }
-})
+const AddressSchema = require("./Address.js");
 
-const CartItemSchema = new Schema({
-  product: {
-    type: Schema.Types.ObjectId,
-    ref: "Product",
-    unique: true,
-    required: true,
-  },
-  count: {
-    type: Number,
-    required: true,
-    min: 1
-  }
+const PaymentMethodSchema = new Schema({
+
 });
 
 const UserSchema = new Schema({
@@ -69,7 +26,9 @@ const UserSchema = new Schema({
   password: {
     type: String,
     validate: {
-      validator: v => strongPassword.test(v),
+      validator: function(v) {
+        return (this.isModified("password") ? strongPassword.test(v) : true);
+      },
       message: "not a strong password"
     },
     required: true
@@ -95,13 +54,66 @@ const UserSchema = new Schema({
     },
     trim: true
   },
-  cart: [CartItemSchema]
+  paymentMethods: [PaymentMethodSchema],
+  cart: {
+    type: Map,
+    of: {
+      count: {
+        type: Number,
+        require: true,
+        min: 1
+      }
+    },
+    validate: {
+      validator: async function(cart) {
+        if (!this.isModified("cart")) return;
+        for (const [id] of cart) {
+          if (!product) return false;
+        }
+        return true;
+      },
+      message: "a product does not exist"
+    }
+  }
 });
 
-UserSchema.pre("validate", async function() {
-  if (this.isModified("cart")) {
-    this.cart = this.cart.filter(item => item.count > 0);
+UserSchema.virtual('emailMasked')
+  .get(function() {
+    const match = /(..)(.+)(@.+\..+)/.exec(email);
+    return match[1] + '*'.repeat(match[2].length) + match[3];
+  });
+
+UserSchema.virtual('fullName')
+  .get(function() {
+    return `${this.name.first} ${this.name.last}`;
+  });
+
+UserSchema.methods.checkPassword = function(plaintext) {
+  return bcrypt.compare(plaintext, this.password);
+};
+
+UserSchema.methods.addToCart = async function(products) {
+  if (typeof products !== "object") throw TypeError("products must be an object");
+
+  const entries = (
+    products instanceof Map ?
+      products.entries() :
+      Object.entries(products)
+  );
+  for (const [id, data] of entries) {
+    if (typeof data !== "object") throw TypeError(`data for ${id} is not an object`);
+    const product = await model("Product").findById(id);
+    if (!product) throw Error(`no product with id ${id}`);
+    this.cart.set(id, data);
   }
+};
+
+UserSchema.pre("validate", async function() {
+  if (this.isModified("cart"))
+    for (const [id, item] of this.cart) {
+      if (!item || item.count > 0) continue;
+      this.cart.delete(id);
+    }
 });
 
 UserSchema.post("validate", async function() {
@@ -110,13 +122,5 @@ UserSchema.post("validate", async function() {
     this.password = await bcrypt.hash(this.password, saltRounds);
   }
 });
-
-UserSchema.virtual('fullName').get(function() {
-  return `${this.name.first} ${this.name.last}`;
-});
-
-UserSchema.methods.checkPassword = function(plaintext) {
-  return bcrypt.compare(plaintext, this.password);
-};
 
 module.exports = UserSchema;
